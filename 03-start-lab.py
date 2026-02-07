@@ -24,7 +24,7 @@ username = os.getenv('EVENG_USER')
 password = os.getenv('EVENG_PASSWORD')
 eveng_ip = os.getenv('EVENG_SERVER')
 
-print("===============================================")
+print("==============")
 print('Logging in...')
 
 login_url = 'http://'+eveng_ip+'/api/auth/login'
@@ -33,11 +33,10 @@ headers = {'Content-type': 'application/json'}
 login = requests.post(url=login_url, data=cred)
 cookies = login.cookies
 
-print("===============================================")
+print("===========================================================================================")
 print("Do you want to start whole nodes in the lab or individual node? whole (A) or individual (B)")
-print("===============================================")
+print("===========================================================================================")
 start_options = str(input("whole (A) or individual (B): "))
-print("===============================================")
 
 if start_options == "B" or start_options == "b":
 
@@ -59,9 +58,9 @@ if start_options == "B" or start_options == "b":
     if lab_number in labs:
         lab_nodes(labs[lab_number])
         
-        print("===============================================")
+        print("==================================================")
         node_id = int(input("Please select the node Id that you want to start: "))
-        print("===============================================")
+        print("==================================================")
 
         start_lab_node(labs[lab_number], node_id)
 
