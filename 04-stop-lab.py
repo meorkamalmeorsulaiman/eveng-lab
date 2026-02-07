@@ -20,6 +20,13 @@ def stop_lab_node(lab_name, node_id):
     stop_lab_node = requests.request("GET", lab_url, headers=headers, cookies=cookies)
     print(stop_lab_node.json())
 
+def wipe_lab_node(lab_name, node_id):
+
+    node_id_to_str = node_id = str(node_id)
+    lab_url = f'http://'+eveng_ip+'/api/labs/'+lab_name+'.unl/nodes/'+node_id_to_str+'/wipe'
+    wipe_lab_node = requests.request("GET", lab_url, headers=headers, cookies=cookies)
+    print(wipe_lab_node.json())
+
 
 username = os.getenv('EVENG_USER')
 password = os.getenv('EVENG_PASSWORD')
@@ -35,7 +42,7 @@ login = requests.post(url=login_url, data=cred)
 cookies = login.cookies
 
 print("===========================================================================================")
-print("Do you want to stop whole nodes in the lab or individual node? whole (A) or individual (B)")
+print("Do you want to stop whole node in the lab or individual node? whole (A) or individual (B)")
 print("===========================================================================================")
 stop_options = str(input("whole (A) or individual (B): "))
 
@@ -60,10 +67,11 @@ if stop_options == "B" or stop_options == "b":
         lab_nodes(labs[lab_number])
 
         print("==================================================")
-        node_id = int(input("Please select the node Id that you want to stop - for skip press (0): "))
+        node_id = int(input("Please select the node Id that you want to stop. Stopping node will automatically wipe the configuration - for skip press (0): "))
         print("==================================================")
 
         stop_lab_node(labs[lab_number], node_id)
+        wipe_lab_node(labs[lab_number], node_id)
 
         print("==================================================")
         con_option = str(input("Do you want to stop another node? yes(Y) or no (N): "))
@@ -78,6 +86,7 @@ if stop_options == "B" or stop_options == "b":
             print("==================================================")
 
             stop_lab_node(labs[lab_number], node_id)
+            wipe_lab_node(labs[lab_number], node_id)
 
             print("==================================================")
             con_option = str(input("Do you want to stop another node? yes(Y) or no (N): "))
