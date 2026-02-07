@@ -11,7 +11,7 @@ def lab_nodes(lab_name):
     for a, data in json_string.items():
         if isinstance(data, dict):
             for nodes, details in data.items():
-                print("Id:", details['id'], "-", details['name'], "-", details['template'], "-", details['url'])
+                print("Id:", details['id'], "-", details['name'], "-", details['template'], "-", details['url'], "State:", details['status'])
 
 def start_lab_node(lab_name, node_id):
 
@@ -59,7 +59,7 @@ if start_options == "B" or start_options == "b":
         lab_nodes(labs[lab_number])
         
         print("==================================================")
-        node_id = int(input("Please select the node Id that you want to start: "))
+        node_id = int(input("Please select the node Id that you want to start - for skip press (0): "))
         print("==================================================")
 
         start_lab_node(labs[lab_number], node_id)

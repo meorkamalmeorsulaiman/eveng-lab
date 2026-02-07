@@ -11,7 +11,7 @@ def lab_nodes(lab_name):
     for a, data in json_string.items():
         if isinstance(data, dict):
             for nodes, details in data.items():
-                print("Id:", details['id'], "-", details['name'], "-", details['template'], "-", details['url'])
+                print("Id:", details['id'], "-", details['name'], "-", details['template'], "-", details['url'], "State:", details['status'])
 
 username = os.getenv('EVENG_USER')
 password = os.getenv('EVENG_PASSWORD')
