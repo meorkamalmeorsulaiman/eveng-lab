@@ -3,6 +3,24 @@ import json
 import os
 import ast
 
+def lab_nodes(lab_name):
+
+    lab_url = f'http://'+eveng_ip+'/api/labs/'+lab_name+'.unl/nodes'
+    get_lab_nodes = requests.request("GET", lab_url, headers=headers, cookies=cookies)
+    json_string = get_lab_nodes.json()
+    for a, data in json_string.items():
+        if isinstance(data, dict):
+            for nodes, details in data.items():
+                print("Id:", details['id'], "-", details['name'], "-", details['template'], "-", details['url'], "State:", details['status'])
+
+def stop_lab_node(lab_name, node_id):
+
+    node_id_to_str = node_id = str(node_id)
+    lab_url = f'http://'+eveng_ip+'/api/labs/'+lab_name+'.unl/nodes/'+node_id_to_str+'/stop'
+    stop_lab_node = requests.request("GET", lab_url, headers=headers, cookies=cookies)
+    print(stop_lab_node.json())
+
+
 username = os.getenv('EVENG_USER')
 password = os.getenv('EVENG_PASSWORD')
 eveng_ip = os.getenv('EVENG_SERVER')
@@ -15,6 +33,54 @@ cred = '{"username":"'+username+'","password":"'+password+'","html5":"-1"}'
 headers = {'Content-type': 'application/json'}
 login = requests.post(url=login_url, data=cred)
 cookies = login.cookies
+
+print("===========================================================================================")
+print("Do you want to stop whole nodes in the lab or individual node? whole (A) or individual (B)")
+print("===========================================================================================")
+stop_options = str(input("whole (A) or individual (B): "))
+
+if stop_options == "B" or stop_options == "b":
+
+    print("===============================================")
+    print("Please select which lab you want to start")
+    print("===============================================")
+
+    with open('metadata/lab-list.txt', 'r') as f:
+        data_string = f.read()
+        labs = ast.literal_eval(data_string)
+
+    for key, value in labs.items():
+        print(key, value)
+    
+    print("===============================================")
+    lab_number = int(input("Enter the lab number: "))
+    print("===============================================")
+
+    if lab_number in labs:
+        lab_nodes(labs[lab_number])
+
+        print("==================================================")
+        node_id = int(input("Please select the node Id that you want to stop - for skip press (0): "))
+        print("==================================================")
+
+        stop_lab_node(labs[lab_number], node_id)
+
+        print("==================================================")
+        con_option = str(input("Do you want to stop another node? yes(Y) or no (N): "))
+        print("==================================================")
+
+        while con_option == "y" or con_option == "y":
+
+            lab_nodes(labs[lab_number])
+        
+            print("==================================================")
+            node_id = int(input("Please select the node Id that you want to stop: "))
+            print("==================================================")
+
+            stop_lab_node(labs[lab_number], node_id)
+
+            print("==================================================")
+            con_option = str(input("Do you want to stop another node? yes(Y) or no (N): "))
 
 print("===============================================")
 print('Logging out...')
