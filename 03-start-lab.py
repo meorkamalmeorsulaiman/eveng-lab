@@ -81,9 +81,6 @@ if start_options == "B" or start_options == "b":
             print("==================================================")
             con_option = str(input("Do you want to start another node? yes(Y) or no (N): "))
 
-
-        
-
 print("===============================================")
 print('Logging out...')
 print("===============================================")
