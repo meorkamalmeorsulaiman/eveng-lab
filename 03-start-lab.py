@@ -64,12 +64,25 @@ if start_options == "B" or start_options == "b":
 
         start_lab_node(labs[lab_number], node_id)
 
+        print("==================================================")
+        con_option = str(input("Do you want to start another node? yes(Y) or no (N): "))
+        print("==================================================")
+
+        while con_option == "y" or con_option == "y":
+
+            lab_nodes(labs[lab_number])
+        
+            print("==================================================")
+            node_id = int(input("Please select the node Id that you want to start: "))
+            print("==================================================")
+
+            start_lab_node(labs[lab_number], node_id)
+
+            print("==================================================")
+            con_option = str(input("Do you want to start another node? yes(Y) or no (N): "))
 
 
-# print("Starting lab 1-Base-Template.unl")
-# lab_url = f'http://'+eveng_ip+'/api/labs/1-Base-Template.unl/nodes/1/start'
-# start_lab = requests.request("GET", lab_url, headers=headers, cookies=cookies)
-# print(start_lab.json())
+        
 
 print("===============================================")
 print('Logging out...')
